@@ -1,0 +1,21 @@
+{
+  "name": "studybook",
+  "version": "0.0.1",
+  "description": "study book and excersises for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Emn1ty/study-book.git"
+  },
+  "author": "jon ardis",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/Emn1ty/study-book/issues"
+  },
+  "devDependencies": {
+    "mocha": "~1.13.0"
+  }
+}
