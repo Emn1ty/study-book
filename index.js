@@ -44,11 +44,14 @@ Messanger.prototype._transform = function _transform(chunk, encoding, done) {
   for (var i = 0; i < messages.length; i++) {
     this.push(messages[i] + this._delimiter + '\n');
   };
+  this.on('end', function(){
+    if (this._buffer.length > 0) { throw new Error("incomplete message still in buffer:" + this._buffer);}
+  });
   done();
 }
 
 Messanger.prototype._getBufferedMessages = function _getBufferedMessages(chunk) {
-  temp = this._buffer + chunk.toString().replace(/\n$/, "");
+  var temp = this._buffer + chunk.toString().replace(/\n$/, "");
   var messages = temp.split(this._delimiter);
   this._buffer = messages.pop();
   return messages;
