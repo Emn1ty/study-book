@@ -14,5 +14,7 @@ uppercase._transform = function (chunk, encoding, done) {
 };
 
 stdin.on('data', function (chunk) {
+  
+  // no idea what to do next
   this.pipe(uppercase);
 });
