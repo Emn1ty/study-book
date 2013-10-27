@@ -30,6 +30,29 @@ Doubler.prototype._transform = function _transform(chunk, encoding, done) {
   done();
 };
 
+// buffer
+var Messanger = function Messanger() {
+  stream.Transform.call(this);
+  this._buffer = '';
+  this._delimiter = '.';
+};
+
+Messanger.prototype = Object.create(stream.Transform.prototype, {constructor: {value: Messanger}});
+
+Messanger.prototype._transform = function _transform(chunk, encoding, done) {
+  var messages = this._getBufferedMessages(chunk);
+  for (var i = 0; i < messages.length; i++) {
+    this.push(messages[i] + this._delimiter + '\n');
+  };
+  done();
+}
+
+Messanger.prototype._getBufferedMessages = function _getBufferedMessages(chunk) {
+  temp = this._buffer + chunk.toString().replace(/\n$/, "");
+  var messages = temp.split(this._delimiter);
+  this._buffer = messages.pop();
+  return messages;
+}
 
 // connect stream
-process.stdin.pipe(new Uppercaser()).pipe(new Buffer()).pipe(process.stdout);
+process.stdin.pipe(new Messanger()).pipe(new Uppercaser()).pipe(new Doubler()).pipe(process.stdout);
